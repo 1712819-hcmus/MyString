@@ -16,7 +16,7 @@ using namespace std;
 			return C;
 		}
 
-		// class Iterator
+#pragma region Nested classes
 		class iterator
 		{
 			char* Location;
@@ -37,9 +37,30 @@ using namespace std;
 			const iterator operator+(int Idex)const;
 			const iterator operator-(int Idex)const;
 		};
+		class reverse_iterator
+		{
+			char* Location;
+
+		public:
+			reverse_iterator(char* x);
+			reverse_iterator();
+			reverse_iterator operator=(char* Src);
+			char operator*();
+			reverse_iterator& operator+=(int Idex);
+			reverse_iterator&  operator++();
+			reverse_iterator  operator++(int);
+			reverse_iterator& operator--();
+			reverse_iterator  operator--(int);
+			bool operator==(reverse_iterator Src);
+			bool operator!=(reverse_iterator Src);
+			reverse_iterator& operator+(int Idex);
+			const reverse_iterator operator+(int Idex)const;
+			const reverse_iterator operator-(int Idex)const;
+		};
+#pragma endregion
 
 
-		// Member Functions
+#pragma region Member Functions
 		MyString();
 		MyString(const MyString&);
 		MyString(const MyString&, int, int);
@@ -51,8 +72,9 @@ using namespace std;
 		MyString& operator=(const MyString& Src);
 		MyString& operator=(const char* Src);
 		MyString& operator=(const char Src);
+#pragma endregion
 
-		//Capacitity
+#pragma region Capacitity
 		int length();
 		int size();
 		int capacity();
@@ -61,8 +83,10 @@ using namespace std;
 		MyString& resize(int);
 		MyString& resize(int, char);
 		const int max_size();
+#pragma endregion
 
-		// element access
+
+#pragma region element access
 		char& front();
 		const char& front() const;
 		char& back();
@@ -70,8 +94,9 @@ using namespace std;
 		char& at(int);
 		char& operator[](const int);
 		const char& operator[](const int)const;
+#pragma endregion
 
-		//Modifiers
+#pragma region Modifiers
 		MyString& operator+=(const MyString& Src);
 		MyString& operator+=(const char*);
 		MyString& operator+=(char);
@@ -85,17 +110,17 @@ using namespace std;
 		MyString& append(int, char);
 		MyString& append(iterator Start, iterator End);
 		MyString& assign(const MyString&);
-		MyString& assign(const MyString&, int , int );
+		MyString& assign(const MyString&, int, int);
 		MyString& assign(const char*, int);
-		MyString& assign(int , char);
+		MyString& assign(int, char);
 		MyString& assign(iterator, iterator);
 		MyString& insert(int, const MyString&);
-		MyString& insert(int, const MyString&,int ,int);
+		MyString& insert(int, const MyString&, int, int);
 		MyString& insert(int, const char*);
-		MyString& insert(int , const char*, int);
+		MyString& insert(int, const char*, int);
 		MyString& insert(int, int, char);
 		iterator insert(iterator, char);
-		MyString& erase(int , int);
+		MyString& erase(int, int);
 		iterator erase(iterator);
 		iterator erase(iterator, iterator);
 		MyString& replace(int, int, const MyString&);
@@ -107,12 +132,9 @@ using namespace std;
 		MyString& replace(iterator, iterator, const char*, int);
 		MyString& replace(int, int, int, char);
 		MyString& replace(iterator, iterator, int, char);
+#pragma endregion
 
-
-
-
-		// Non-member function overloads
-
+#pragma region Non-member function overloads
 		bool operator==(const MyString&);
 		bool operator==(const char*);
 		bool operator!=(const MyString&);
@@ -128,27 +150,28 @@ using namespace std;
 		friend istream& operator>>(istream& Indev, MyString& Src);
 		friend ostream& operator<<(ostream& Outdev, const MyString& Src);
 		MyString& operator+(MyString&Src);
-		MyString& operator+(const char* );
+		MyString& operator+(const char*);
 		friend istream& getline(istream&, MyString&);
 
+#pragma endregion
 
-		// MyString operations
+#pragma region MyString operations
 		int compare(MyString& Src)const;
 		int compare(int Pos, int Len, const MyString& Src) const;
 		int compare(int Pos, int Len, const MyString& Src, int SubPos, int SubLen)const;
 		int compare(const char* Src)const;
 		int compare(int Pos, int Len, const char* Src, int n)const;
-		int find(const char* Src, int Pos=0)const;
+		int find(const char* Src, int Pos = 0)const;
 		int find(const MyString& Src, int Pos = 0)const;
 		int find(char c, int Pos = 0)const;
 		int find(const char* Src, int Pos, int n)const;
-		int rfind(const MyString&, int Pos =MAX)const;
+		int rfind(const MyString&, int Pos = MAX)const;
 		int rfind(const char*, int Pos = MAX)const;
 		int rfind(const char*, int, int)const;
 		int rfind(char, int Pos = MAX)const;
 		int find_first_of(const char*, int Pos = 0)const;
 		int find_first_of(const MyString&, int Pos = 0)const;
-		int find_first_of(const char*, int ,int)const;
+		int find_first_of(const char*, int, int)const;
 		int find_first_of(char, int Pos = 0)const;
 		int find_last_of(const char*, int Pos = MAX)const;
 		int find_last_of(const MyString&, int Pos = MAX)const;
@@ -166,25 +189,28 @@ using namespace std;
 		const char* c_str()const;
 		const char* data()const;
 		MyString substr(int Pos = 0, int Len = MAX);
+#pragma endregion
 
-
-
-
-
-		//iterator
+#pragma region iterator
 		iterator begin();
 		const iterator begin()const;
 		iterator end();
 		const iterator end() const;
-		
+		reverse_iterator  rbegin();
+		const reverse_iterator rbegin()const;
+		reverse_iterator rend();
+		const reverse_iterator rend() const;
+		const iterator cbegin() noexcept;
+		const iterator cend() noexcept;
+		const reverse_iterator crbegin() noexcept;
+		const reverse_iterator crend() noexcept;
 		friend istream& getline(istream&, MyString&);
+#pragma endregion
+
 
 	};
 
-
-
-
-	//   Class Exception to handlers 
+	// Class Exception to handlers 
 	class MyStringException
 	{
 	private:

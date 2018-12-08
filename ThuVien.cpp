@@ -1,7 +1,7 @@
 ﻿#include"ThuVien.h"
 
 
-#pragma region Member Functions //xong
+#pragma region Member Functions 
 MyString::MyString()
 {
 	C = NULL;
@@ -93,7 +93,9 @@ MyString& MyString::operator=(const char Src)
 #pragma endregion
 
 
-#pragma region  Non-member functions overloads //xong
+
+
+#pragma region  Non-member functions overloads 
 bool MyString::operator==(const MyString& Src)
 {
 	return operator==(Src.C);
@@ -188,7 +190,9 @@ istream& getline(istream& Indev, MyString& Src)
 #pragma endregion
 
 
-#pragma region Capacity  //2 
+
+
+#pragma region Capacity  
 int MyString::length()
 {
 	return strlen(C);
@@ -258,7 +262,8 @@ const int MyString::max_size()
 
 
 
-#pragma region Element access //xong
+
+#pragma region Element access 
 char& MyString::front()
 {
 	return C[0];
@@ -305,7 +310,8 @@ const char& MyString::operator[](const int Pos)const
  
 
 
-#pragma region Modifiers //xong
+
+#pragma region Modifiers 
 MyString& MyString:: operator+=(const MyString& Src)
 {
 	return operator+=(Src.C);
@@ -649,7 +655,8 @@ MyString& MyString::replace(iterator First, iterator Last, int n, char c)
 #pragma endregion
 
 
-#pragma region MyString operations //xong
+
+#pragma region MyString operations 
 int MyString::compare(MyString& Src)const
 {
 	return strcmp(C, Src.C);
@@ -779,9 +786,9 @@ int MyString::find(const char* S, int Index, int Len2)const
 }
 int MyString::rfind(const char* Src, int Index)const
 {
-	if (Index == MAX || Index>strlen(C))
-		Index = strlen(C) - 1;
 	int Len1 = strlen(C);
+	if (Index == MAX || Index>Len1)
+		Index = Len1- 1;
 	int Len2 = strlen(Src);
 	if (Index - 1 < Len2)
 		return MAX;
@@ -819,8 +826,9 @@ int MyString::rfind(const char* Src1, int Pos, int n)const
 int MyString::rfind(char c, int Index)const
 {
 
-	if (Index == MAX || Index > strlen(C))
-		Index = strlen(C) - 1;
+	int Len = strlen(C);
+	if (Index == MAX || Index > Len)
+		Index = Len - 1;
 	for (int i = Index; i >= 0; i--)
 		if (C[i] == c)
 			return i;
@@ -858,9 +866,9 @@ int MyString::find_first_of(char c, int Pos)const
 }
 int MyString::find_last_of(const char* Src, int Pos )const
 {
-	if (Pos > strlen(C))
-		Pos = strlen(C) - 1;
 	int Len1 = strlen(C);
+	if (Pos > Len1)
+		Pos = Len1 - 1;
 	int Len2 = strlen(Src);
 	for (int i = Pos; i > -1; i--)
 		for (int j = 0; j < Len2; j++)
@@ -925,9 +933,9 @@ int MyString::find_first_not_of(char c, int Pos)const
 }
 int MyString::find_last_not_of(const char* Src, int Pos)const
 {
-	if (Pos > strlen(C))
-		Pos = strlen(C) - 1;
 	int Len1 = strlen(C);
+	if (Pos > Len1)
+		Pos = Len1 - 1;
 	for (int i = Pos; i >=0; i--)
 		if (IsNot(C[i], Src))
 			return i;
@@ -969,8 +977,9 @@ const char* MyString::data()const
 }
 MyString MyString::substr(int Pos , int Len )
 {
-	if (Len > strlen(C))
-		Len = strlen(C);
+	int Len1 = strlen(C);
+	if (Len > Len1)
+		Len = Len1;
 	MyString Temp;
 	Temp.C = new char[Len + 1];
 	Temp.C[Len] = NULL;
@@ -979,6 +988,7 @@ MyString MyString::substr(int Pos , int Len )
 	return Temp;
 }
 #pragma endregion
+
 
 
 #pragma region Iterator
@@ -1000,8 +1010,45 @@ const MyString::iterator MyString::end() const
 	int Length = strlen(C);
 	return C + Length;
 }
+MyString::reverse_iterator MyString::rbegin()
+{
+	int Length = strlen(C);
+	return C + Length-1;
+}
+const MyString::reverse_iterator MyString::rbegin()const
+{
+	int Length = strlen(C);
+	return C + Length-1;
+}
+MyString::reverse_iterator MyString::rend()
+{
+	return C -1;
+}
+const MyString::reverse_iterator MyString::rend() const
+{
+	return C -1;
+}
+const MyString::iterator MyString::cbegin() noexcept
+{
+	return C + 0;
+}
+const MyString::iterator MyString::cend() noexcept
+{
+	int Length = strlen(C);
+	return C + Length;
+}
+const MyString::reverse_iterator MyString::crbegin() noexcept
+{
+	int Length = strlen(C);
+	return C + Length-1;
+}
+const MyString::reverse_iterator MyString::crend() noexcept
+{
+	return C-1;
+}
 
 #pragma endregion
+
 
 
 
@@ -1077,8 +1124,85 @@ const MyString::iterator MyString::iterator::operator-(int Idex)const
 	Temp.Location = Location - Idex;
 	return Temp;
 }
+
 #pragma endregion
 
+
+
+
+#pragma region  Setting class reverse_iterator of class Mystring
+MyString::reverse_iterator::reverse_iterator(char* x)
+{
+	Location = x;
+}
+MyString::reverse_iterator::reverse_iterator()
+{
+	Location = NULL;
+}
+MyString::reverse_iterator MyString::reverse_iterator::operator=(char* Src)
+{
+	Location = Src;
+	return *this;
+}
+char MyString::reverse_iterator::operator*()
+{
+	return *Location;
+}
+MyString::reverse_iterator& MyString::reverse_iterator::operator+=(int Idex)
+{
+	Location -= Idex;
+	return *this;
+}
+MyString::reverse_iterator&  MyString::reverse_iterator::operator++()
+{
+	Location--;
+	return *this;
+}
+MyString::reverse_iterator MyString::reverse_iterator::operator++(int)
+{
+	reverse_iterator Temp = *this;
+	++(*this);
+	return Temp;
+}
+MyString::reverse_iterator& MyString::reverse_iterator::operator--()
+{
+	Location++;
+	return *this;
+}
+MyString::reverse_iterator MyString::reverse_iterator::operator--(int)
+{
+	reverse_iterator Temp = *this;
+	--(*this);
+	return Temp;
+}
+bool MyString::reverse_iterator::operator==(reverse_iterator Src)
+{
+	return Location == Src.Location;
+}
+bool MyString::reverse_iterator::operator!=(reverse_iterator Src)
+{
+	return Location != Src.Location;
+}
+MyString::reverse_iterator& MyString::reverse_iterator::operator+(int Idex)
+{
+	reverse_iterator Temp;
+	Temp.Location = Location - Idex;
+	return Temp;
+}
+const MyString::reverse_iterator MyString::reverse_iterator::operator+(int Idex)const
+{
+	reverse_iterator Temp;
+	Temp.Location = Location - Idex;
+	return Temp;
+}
+const MyString::reverse_iterator MyString::reverse_iterator::operator-(int Idex)const
+{
+	reverse_iterator Temp;
+	Temp.Location = Location + Idex;
+	return Temp;
+}
+
+#pragma endregion
 
 
 
